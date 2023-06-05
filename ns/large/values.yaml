@@ -1,6 +1,0 @@
-#@data/values
----
-namespaces:
-- name: large
-  scanpolicies: ["lax-scan-policy"]
-  pipelines: ["java"]
