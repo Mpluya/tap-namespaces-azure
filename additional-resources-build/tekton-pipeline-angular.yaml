@@ -28,7 +28,7 @@ spec:
       - name: source-revision
       steps:
         - name: test
-          image: armno/node-chromium
+          image: efgiese/efgiese-angular-chrome-headless
           script: |-
             cd `mktemp -d`
             wget -qO- $(params.source-url) | tar xvz -m
