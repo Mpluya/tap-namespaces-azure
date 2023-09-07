@@ -28,12 +28,11 @@ spec:
       - name: source-revision
       steps:
         - name: test
-          image: node:latest
+          image: armno/node-chromium
           script: |-
             cd `mktemp -d`
             wget -qO- $(params.source-url) | tar xvz -m
-            RUN apk add chromium
-            ENV CHROME_BIN='/usr/bin/chromium-browser'
+
             export CI=true
             npm install
             npm run test-headless
