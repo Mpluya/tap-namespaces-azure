@@ -32,6 +32,8 @@ spec:
           script: |-
             cd `mktemp -d`
             wget -qO- $(params.source-url) | tar xvz -m
+            RUN apk add chromium
+            ENV CHROME_BIN='/usr/bin/chromium-browser'
             export CI=true
             npm install
             npm run test-headless
