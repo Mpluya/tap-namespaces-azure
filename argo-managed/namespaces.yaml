@@ -3,3 +3,5 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: mae
+  labels:
+    apps.tanzu.vmware.com/tap-ns: ""
