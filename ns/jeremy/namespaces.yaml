@@ -9,5 +9,5 @@ kind: Namespace
 metadata:
   name: #@ ns.name
   labels:
-    policy.sigstore.dev/include: "true"
+    policy.sigstore.dev/include: "false"
 #@ end
