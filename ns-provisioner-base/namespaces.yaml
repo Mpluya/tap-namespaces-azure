@@ -9,5 +9,5 @@ kind: Namespace
 metadata:
   name: #@ ns.name
   labels:
-    policy.sigstore.dev/include: #@ data.values.cosign
+    policy.sigstore.dev/include: #@ ns.cosign
 #@ end
