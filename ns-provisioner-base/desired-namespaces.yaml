@@ -16,7 +16,6 @@ namespaces:
   pipelines: ["java"]
   cosign: "false"
 - name: mae
-  scanpolicies: ["lax-scan-policy"]
   pipelines: ["java", "node", "go"]
   cosign: "true"
 - name: jeremy
