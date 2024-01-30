@@ -20,6 +20,8 @@ namespaces:
   cosign: "true"
 - name: mae-qa
   cosign: "false"
+- name: mae-preprod
+  cosign: "false"
 - name: jeremy
   scanpolicies: ["source-scan-policy", "image-scan-policy"]
   pipelines: ["dotnet", "java", "go"]
