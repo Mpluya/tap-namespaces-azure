@@ -28,5 +28,3 @@ namespaces:
   cosign: "false"
 - name: supplychains
   cosign: "false"
-- name: supplychains-relearn
-  cosign: "false"
