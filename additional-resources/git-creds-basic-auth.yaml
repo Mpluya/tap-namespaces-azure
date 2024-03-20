@@ -3,5 +3,7 @@ apiVersion: secretgen.carvel.dev/v1alpha1
 kind: SecretImport
 metadata:
   name: git-credentials
+  annotations:
+    tekton.dev/git-1: https://github.com
 spec:
   fromNamespace: tap-install
