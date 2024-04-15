@@ -39,5 +39,7 @@ spec:
           script: |-
             set -ex
             cd `mktemp -d`
+            wget -qO- $(params.source-url) | tar xvz -m
+            pytest
             
             
