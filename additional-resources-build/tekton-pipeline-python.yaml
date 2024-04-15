@@ -15,8 +15,6 @@ spec:
   params:
   - name: source-url
   - name: source-revision
-  workspaces:
-  - name: supplychain-workspace
   tasks:
   - name: test
     params:
@@ -24,15 +22,10 @@ spec:
       value: $(params.source-url)
     - name: source-revision
       value: $(params.source-revision)
-    workspaces:
-    - name: supplychain-workspace
-      workspace: supplychain-workspace
     taskSpec:
       params:
       - name: source-url
       - name: source-revision
-      workspaces:
-      - name: supplychain-workspace
       steps:
         - name: test
           image: python:latest
