@@ -32,3 +32,5 @@ namespaces:
   scanpolicies: ["source-scan-policy", "image-scan-policy"]
   pipelines: ["dotnet", "java", "go", "python"]
   cosign: "false"
+- name: scc-flux
+  cosign: "false"
