@@ -34,3 +34,4 @@ namespaces:
   cosign: "false"
 - name: kustomize-fun
   cosign: "false"
+  pipelines: ["java"]
