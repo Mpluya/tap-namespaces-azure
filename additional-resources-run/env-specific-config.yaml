@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-specific
+data:
+  config.yaml: |
+    domain: ".run.cssa.tapsme.org"

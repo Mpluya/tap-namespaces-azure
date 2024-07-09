@@ -1,0 +1,62 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ingress-overlay
+stringData:
+  ingress-overlay.yaml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@ load("@ytt:yaml", "yaml")
+    #@ load("@ytt:data", "data")
+
+    #@ def append_hostname_rule(left):
+    #@  rules = yaml.decode(yaml.encode(left))
+    #@  for rule in rules:
+    #!    Safety check. If there is a . then assume domain is there
+    #@    if rule.get("host").find(".") > 0:
+    #@      rule.update({"host": rule.get("host")})
+    #@    else:     
+    #@      rule.update({"host": rule.get("host") + data.values.domain}) 
+    #@    end 
+    #@  end
+    #@  return rules
+    #@ end
+
+    #@ def append_hostname_tls(left):
+    #@  secrets = yaml.decode(yaml.encode(left))
+    #@  for secret in secrets:
+    #@    fqdnhosts = list()
+    #@    for host in secret.get("hosts"):
+    #!      Safety check. If there is a . then assume domain is there
+    #@      if host.find(".") > 0:
+    #@        fqdnhosts.append(host)
+    #@      else:     
+    #@        fqdnhosts.append(host + data.values.domain)
+    #@      end 
+    #@    end
+    #@    secret.update({"hosts": fqdnhosts})
+    #@  end
+    #@  return secrets
+    #@ end
+    
+    #@ def append_domain_to_fqdn(left, right):
+    #@  if left.find(".") < 0:
+    #@   return left+right
+    #@  end
+    #@  return left 
+    #@ end
+
+    #@overlay/match by=overlay.subset({"kind": "Ingress","apiVersion": "networking.k8s.io/v1"}), expects="0+"
+    ---
+    spec:
+      #@overlay/replace via=lambda left, _: append_hostname_rule(left)
+      rules:
+      #@overlay/replace via=lambda left, _: append_hostname_tls(left)
+      tls:
+    
+    #@overlay/match by=overlay.subset({"kind": "HTTPProxy","apiVersion": "projectcontour.io/v1"}), expects="0+"
+    ---
+    spec:
+      virtualhost:
+        #@overlay/replace via=lambda left, right: append_domain_to_fqdn(left, right)
+        fqdn: #@ data.values.domain
