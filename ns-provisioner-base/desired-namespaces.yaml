@@ -26,7 +26,7 @@ namespaces:
   scanpolicies: ["source-scan-policy", "image-scan-policy"]
   pipelines: ["dotnet", "java", "go", "python"]
   cosign: "false"
-  quotas: "large"
+  quotas: "medium"
 - name: supplychains
   cosign: "false"
 - name: bobbyhana
