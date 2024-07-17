@@ -7,21 +7,21 @@ metadata:
   name: resource-quota
   namespace: #@ data.values.name
 spec: 
-  # if hasattr(data.values, 'quotas') and data.values.quotas == 'large':
+  #@ if hasattr(data.values, 'quotas') and data.values.quotas == 'large':
   hard:
     pods: "100"
     requests.cpu: "20"
     requests.memory: "50Gi"
     limits.cpu: "40"
     limits.memory: "100Gi"
-  # elif hasattr(data.values, 'quotas') and data.values.quotas == 'medium':
+  #@ elif hasattr(data.values, 'quotas') and data.values.quotas == 'medium':
     hard:
       pods: "50"
       requests.cpu: "10"
       requests.memory: "25Gi"
       limits.cpu: "20"
       limits.memory: "50Gi"
-  # else:
+  #@ else:
     hard:
       pods: "1"
       requests.cpu: "2"
