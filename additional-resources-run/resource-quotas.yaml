@@ -28,3 +28,4 @@ spec:
       requests.memory: "5Gi"
       limits.cpu: "4"
       limits.memory: "10Gi"
+  #@ end
