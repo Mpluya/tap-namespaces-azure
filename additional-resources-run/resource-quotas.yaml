@@ -23,7 +23,7 @@ spec:
       limits.memory: "50Gi"
   #@ else:
     hard:
-      pods: "1"
+      pods: "2"
       requests.cpu: "2"
       requests.memory: "5Gi"
       limits.cpu: "4"
