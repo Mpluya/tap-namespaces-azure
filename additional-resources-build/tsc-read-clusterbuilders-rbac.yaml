@@ -6,7 +6,7 @@ metadata:
   name: readclusterbuilders
 rules:
   - apiGroups:
-      - kpack.io
+    - kpack.io
     resources:
       - clusterbuilders
       - builders
