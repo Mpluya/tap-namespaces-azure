@@ -1,4 +1,4 @@
-ignoreme
+.ignoreme
 .ssh
 .vscode
 /tap-namespaces-azure.iml
