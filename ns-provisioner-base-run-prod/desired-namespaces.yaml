@@ -7,6 +7,7 @@ namespaces:
   scanpolicies: ["lax-scan-policy"]
   pipelines: ["java"]
   cosign: "false"
+  quotas: "large"
 - name: mae
   pipelines: ["java", "node", "go"]
   cosign: "true"
