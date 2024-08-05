@@ -1,0 +1,74 @@
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: tekton-policy-enforcement
+spec:
+  params:
+    - name: image
+      type: string
+  steps:
+    - name: enforce-policy
+      image: ubuntu:latest
+      env:
+        - name: GATE
+          value: THRESHOLD
+        - name: METADATA_STORE_URL
+          value: METADATA-STORE-URL
+        - name: ACCESS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: metadata-store-access-token
+              key: accessToken
+      script: |
+        apt-get update
+        apt-get install -y jq curl
+        
+        if [ ${GATE} = "none" ]; then
+            exit 0
+        fi
+
+        IMAGE_DIGEST=$(echo $(params.image) | cut -d "@" -f 2)
+        while true; do
+          response_code=$(curl https://${METADATA_STORE_URL}/api/v1/images/${IMAGE_DIGEST} -H "Authorization: Bearer ${ACCESS_TOKEN}" -H 'accept: application/json' --cacert /var/cert/caCrt -o vulnerabilities.json -w "%{http_code}")
+          if [ $response_code -eq 200 ]; then
+            echo "Vulnerabilities data is available in AMR"
+            break
+          else
+            echo "Vulnerabilities data is not available in AMR, waiting..."
+            sleep 10
+          fi
+        done
+
+        critical=$(cat vulnerabilities.json | jq '[.Packages[].Vulnerabilities[] | select(.Ratings[].Severity | contains("Critical"))] | unique | length')
+        high=$(cat vulnerabilities.json | jq '[.Packages[].Vulnerabilities[] | select(.Ratings[].Severity | contains("High"))] | unique | length')
+        medium=$(cat vulnerabilities.json | jq '[.Packages[].Vulnerabilities[] | select(.Ratings[].Severity | contains("Medium"))] | unique | length')
+        low=$(cat vulnerabilities.json | jq '[.Packages[].Vulnerabilities[] | select(.Ratings[].Severity | contains("Low"))] | unique | length')
+        vulnerabilitiesCount=0
+        case $GATE in
+          low)
+            vulnerabilitiesCount=$(($low+$medium+$high+$critical))
+            ;;
+          medium)
+            vulnerabilitiesCount=$(($medium+$high+$critical))
+            ;;
+
+          high)
+            vulnerabilitiesCount=$(($high+$critical))
+            ;;
+
+          critical)
+            vulnerabilitiesCount=$(($critical))
+            ;;
+        esac
+        echo "Vulnerabilities: ${vulnerabilitiesCount}"
+        if [ ${vulnerabilitiesCount} -gt 0 ];then
+          exit 1
+        fi
+      volumeMounts:
+        - name: cert
+          mountPath: /var/cert
+  volumes:
+    - name: cert
+      secret:
+        secretName: metadata-store-cert
