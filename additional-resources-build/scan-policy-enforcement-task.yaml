@@ -18,8 +18,8 @@ spec:
         - name: ACCESS_TOKEN
           valueFrom:
             secretKeyRef:
-              name: metadata-store-access-token
-              key: accessToken
+              name: store-auth-token
+              key: auth_token
       script: |
         apt-get update
         apt-get install -y jq curl
@@ -71,4 +71,4 @@ spec:
   volumes:
     - name: cert
       secret:
-        secretName: metadata-store-cert
+        secretName: store-ca-cert
