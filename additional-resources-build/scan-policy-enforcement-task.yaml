@@ -12,7 +12,7 @@ spec:
       image: ubuntu:latest
       env:
         - name: GATE
-          value: low
+          value: critical
         - name: METADATA_STORE_URL
           value: "metadata-store.view.cssa.tapsme.org"
         - name: ACCESS_TOKEN
