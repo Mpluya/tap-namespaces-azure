@@ -30,7 +30,7 @@ spec:
 
         IMAGE_DIGEST=$(echo $(params.image) | cut -d "@" -f 2)
         while true; do
-          response_code=$(curl https://${METADATA_STORE_URL}/api/v1/images/${IMAGE_DIGEST} -H "Authorization: Bearer ${ACCESS_TOKEN}" -H 'accept: application/json' --cacert /var/cert/caCrt -o vulnerabilities.json -w "%{http_code}")
+          response_code=$(curl https://${METADATA_STORE_URL}/api/v1/images/${IMAGE_DIGEST} -H "Authorization: Bearer ${ACCESS_TOKEN}" -H 'accept: application/json' --cacert /var/cert/ca.crt -o vulnerabilities.json -w "%{http_code}")
           if [ $response_code -eq 200 ]; then
             echo "Vulnerabilities data is available in AMR"
             break
