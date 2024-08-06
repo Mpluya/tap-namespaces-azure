@@ -14,7 +14,7 @@ spec:
         - name: GATE
           value: low
         - name: METADATA_STORE_URL
-          value: METADATA-STORE-URL
+          value: "metadata-store.view.cssa.tapsme.org"
         - name: ACCESS_TOKEN
           valueFrom:
             secretKeyRef:
