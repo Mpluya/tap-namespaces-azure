@@ -61,9 +61,6 @@ spec:
           critical)
             vulnerabilitiesCount=$(($critical))
             ;;
-          *)
-            echo "I'm gonna let this slide"
-            ;;
         esac
         echo "Vulnerabilities: ${vulnerabilitiesCount}"
         if [ ${vulnerabilitiesCount} -gt 0 ];then
