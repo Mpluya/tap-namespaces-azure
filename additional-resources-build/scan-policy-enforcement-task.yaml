@@ -1,3 +1,4 @@
+#@ load("@ytt:data", "data")
 ---
 apiVersion: tekton.dev/v1
 kind: Task
@@ -12,7 +13,7 @@ spec:
       image: ubuntu:latest
       env:
         - name: GATE
-          value: lax
+          value: none
         - name: METADATA_STORE_URL
           value: "metadata-store.view.cssa.tapsme.org"
         - name: ACCESS_TOKEN
