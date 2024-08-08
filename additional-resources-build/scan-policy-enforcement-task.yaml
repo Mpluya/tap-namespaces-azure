@@ -8,12 +8,14 @@ spec:
   params:
     - name: image
       type: string
+    - name: gate
+      type: string
   steps:
     - name: enforce-policy
       image: ubuntu:latest
       env:
         - name: GATE
-          value: none
+          value: $(params.gate)
         - name: METADATA_STORE_URL
           value: "metadata-store.view.cssa.tapsme.org"
         - name: ACCESS_TOKEN
