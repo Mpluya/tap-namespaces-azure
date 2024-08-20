@@ -32,6 +32,7 @@ spec:
             script: |-
               cd `mktemp -d`
               wget -qO- $(params.source-url) | tar xvz -m
+              cd config/mae/workload-git-sha/dev
               pwd
               
               yaml_file="delivery.yml"
