@@ -41,18 +41,11 @@ spec:
               
               git_sha_value=$(yq e '. | select(.kind == "Deployment") | .spec.template.metadata.annotations."apps.tanzu.vmware.com/git-sha"' "$yaml_file")
               echo $git_sha_value
-
-            volumeMounts:
-              - mountPath: /var/run/
-                name: dind-socket
-        sidecars:
-          - image: docker:20.10.17-dind
-            name: docker
-            securityContext:
-              privileged: true
-            volumeMounts:
-              - mountPath: /var/run/
-                name: dind-socket
-        volumes:
-          - name: dind-socket
-            emptyDir: { }
+    - name: slack
+      params:
+        - name: webhook-secret
+          value: webhook-secret
+        - name: message
+          value: "Hello from Tekton!"
+      taskRef:
+        name: send-to-webhook-slack
