@@ -16,7 +16,7 @@ namespaces:
   pipelines: ["java"]
   cosign: "false"
 - name: mae
-  pipelines: ["java", "node", "go"]
+  pipelines: ["java", "node", "go", "slack"]
   cosign: "true"
 - name: mae-qa
   cosign: "false"
