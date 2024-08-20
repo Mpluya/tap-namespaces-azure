@@ -22,14 +22,14 @@ spec:
           value: $(params.source-url)
         - name: source-revision
           value: $(params.source-revision)
-      results:
-        - description: git-sha
-          name: git-sha
-          type: string
       taskSpec:
         params:
           - name: source-url
           - name: source-revision
+        results:
+          - description: git-sha
+            name: git-sha
+            type: string
         steps:
           - name: test
             image: cxscssa.azurecr.io/utils/module-detector-pipeline-image:0.5.0
