@@ -50,6 +50,6 @@ spec:
         - name: webhook-secret
           value: webhook-secret
         - name: message
-          value: $(tasks.test.results.git-sha)
+          value: "Source code commit sha - $(tasks.test.results.git-sha)"
       taskRef:
         name: send-to-webhook-slack
