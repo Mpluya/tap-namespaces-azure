@@ -22,6 +22,10 @@ spec:
           value: $(params.source-url)
         - name: source-revision
           value: $(params.source-revision)
+      results:
+        - description: git-sha
+          name: git-sha
+          type: string
       taskSpec:
         params:
           - name: source-url
@@ -40,12 +44,12 @@ spec:
               yaml_file="delivery.yml"
               
               git_sha_value=$(yq e '. | select(.kind == "Deployment") | .spec.template.metadata.annotations."apps.tanzu.vmware.com/git-sha"' "$yaml_file")
-              echo $git_sha_value
+              echo $git_sha_value > $(results.git-sha.path)
     - name: slack
       params:
         - name: webhook-secret
           value: webhook-secret
         - name: message
-          value: "Hello from Tekton!"
+          value: $(tasks.test.results.git-sha)
       taskRef:
         name: send-to-webhook-slack
