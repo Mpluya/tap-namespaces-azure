@@ -13,7 +13,7 @@ spec:
     - name: deliverable-name
     - name: deliverable-namespace
   tasks:
-    - name: test
+    - name: parse
       params:
         - name: source-url
           value: $(params.source-url)
@@ -37,7 +37,7 @@ spec:
             name: git-sha
             type: string
         steps:
-          - name: test
+          - name: parse
             image: cxscssa.azurecr.io/utils/module-detector-pipeline-image:0.5.0
             script: |-
               cd `mktemp -d`
@@ -54,6 +54,6 @@ spec:
         - name: webhook-secret
           value: webhook-secret
         - name: message
-          value: "Source code commit sha - $(tasks.test.results.git-sha)"
+          value: "Source code commit sha - $(tasks.parse.results.git-sha)"
       taskRef:
         name: send-to-webhook-slack
