@@ -46,8 +46,8 @@ spec:
               cd config/$(params.deliverable-namespace)/$(params.deliverable-name)/$(params.environment)
               
               yaml_file="delivery.yml"
-              
-              git_sha_value=$(yq e '. | select(.kind == "Deployment") | .spec.template.metadata.annotations."apps.tanzu.vmware.com/git-sha"' "$yaml_file")
+              git_sha_value=$(yq e '. | select((.kind == "Deployment" and .apiVersion == "apps/v1") or (.kind == "Service" and .apiVersion == "serving.knative.dev/v1")) | .spec.template.metadata.annotations."apps.tanzu.vmware.com/git-sha"' "$yaml_file")
+  
               echo $git_sha_value > $(results.git-sha.path)
     - name: slack
       params:
