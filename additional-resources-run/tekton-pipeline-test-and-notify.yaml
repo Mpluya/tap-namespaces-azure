@@ -29,6 +29,9 @@ spec:
         params:
           - name: source-url
           - name: source-revision
+          - name: deliverable-name
+          - name: deliverable-namespace
+          - name: environment
         results:
           - description: git-sha
             name: git-sha
