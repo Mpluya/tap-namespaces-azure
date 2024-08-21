@@ -1,16 +1,11 @@
 #@ load("@ytt:data", "data")
-#@ def in_list(key, list):
-#@  return hasattr(data.values.tap_values, key) and (data.values.tap_values[key] in list)
-#@ end
-#@ if/end in_list('supply_chain', ['testing', 'testing_scanning']) and in_list('profile', ['full', 'iterate', 'build']) and hasattr(data.values, "pipelines") and 'slack' in data.values.pipelines:
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: developer-defined-tekton-pipeline-slack
+  name: test-and-notify-pipeline
   labels:
-    apps.tanzu.vmware.com/pipeline: test
-    apps.tanzu.vmware.com/language: slack
+    apps.tanzu.vmware.com/intent: notify
 spec:
   params:
     - name: source-url
@@ -22,6 +17,12 @@ spec:
           value: $(params.source-url)
         - name: source-revision
           value: $(params.source-revision)
+        - name: deliverable-name
+          value: $(params.deliverable-name)
+        - name: deliverable-namespace
+          value: $(params.deliverable-namespace)
+        - name: environment
+          value: dev
       taskSpec:
         params:
           - name: source-url
@@ -36,9 +37,8 @@ spec:
             script: |-
               cd `mktemp -d`
               wget -qO- $(params.source-url) | tar xvz -m
-              
-              #use data.values.deliverable.metadata.namespace|name
-              cd config/mae/workload-with-git-sha/dev
+
+              cd config/$(params.deliverable-namespace)/$(params.deliverable-name)/$(params.env)
               
               yaml_file="delivery.yml"
               
