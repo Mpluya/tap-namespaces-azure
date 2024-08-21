@@ -43,7 +43,7 @@ spec:
               cd `mktemp -d`
               wget -qO- $(params.source-url) | tar xvz -m
 
-              cd config/$(params.deliverable-namespace)/$(params.deliverable-name)/$(params.env)
+              cd config/$(params.deliverable-namespace)/$(params.deliverable-name)/$(params.environment)
               
               yaml_file="delivery.yml"
               
